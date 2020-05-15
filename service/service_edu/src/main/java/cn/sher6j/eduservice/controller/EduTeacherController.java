@@ -29,6 +29,7 @@ import java.util.List;
 @Api(description = "讲师管理")
 @RestController //@Controller(控制层注入到IoC中) + @ResponseBody(用来返回json数据)
 @RequestMapping("/eduservice/edu-teacher")
+@CrossOrigin
 public class EduTeacherController {
 
     //访问地址举例：http://localhost:8001/eduservice/edu-teacher/findAll
