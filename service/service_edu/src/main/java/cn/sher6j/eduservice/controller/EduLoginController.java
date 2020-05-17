@@ -1,12 +1,14 @@
 package cn.sher6j.eduservice.controller;
 
 import cn.sher6j.commonutils.R;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * @author sher6j
  * @create 2020-05-15-13:43
  */
+@Api(description = "登录")
 @RestController
 @RequestMapping("/eduservice/user")
 @CrossOrigin //解决跨域问题
