@@ -50,6 +50,18 @@ public class SubjectExcelListner extends AnalysisEventListener<SubjectData> {
             existOneSubject.setTitle(subjectData.getOneSubject());//一级分类名称
             subjectService.save(existOneSubject);
         }
+
+        //获取一级分类的id值
+        String pid = existOneSubject.getId();
+        //添加二级分类
+        EduSubject existTwoSubject = this.existTwoSubject(subjectService, subjectData.getTwoSubject(), pid);
+        if (existTwoSubject == null) {
+            existTwoSubject = new EduSubject();
+            existTwoSubject.setParentId(pid);
+            existTwoSubject.setTitle(subjectData.getTwoSubject());
+            subjectService.save(existTwoSubject);
+        }
+
     }
 
     /**
