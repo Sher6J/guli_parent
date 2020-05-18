@@ -1,8 +1,11 @@
 package cn.sher6j.eduservice.service;
 
 import cn.sher6j.eduservice.entity.EduSubject;
+import cn.sher6j.eduservice.entity.subject.OneSubject;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * <p>
@@ -19,4 +22,10 @@ public interface EduSubjectService extends IService<EduSubject> {
      * @param file
      */
     void addSubject(MultipartFile file, EduSubjectService subjectService);
+
+    /**
+     * 课程分类列表
+     * @return
+     */
+    List<OneSubject> getAllOneTwoSubject();
 }
