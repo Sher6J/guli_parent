@@ -26,6 +26,7 @@ public class CodeGenerator {
         // 2、全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
+        //代码输出位置
         gc.setOutputDir("D:\\IdeaProjects\\guli_parent\\service\\service_edu" + "/src/main/java");
 
         gc.setAuthor("sher6j");

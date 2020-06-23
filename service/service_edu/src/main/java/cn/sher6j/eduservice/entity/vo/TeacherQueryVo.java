@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * 封装查询条件
+ * 讲师的封装查询条件
  * @author sher6j
  * @create 2020-05-13-20:38
  */
