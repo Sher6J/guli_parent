@@ -7,11 +7,7 @@ import cn.sher6j.eduservice.service.EduCourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -24,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(description = "课程管理")
 @RestController
 @RequestMapping("/eduservice/edu-course")
+@CrossOrigin
 public class EduCourseController {
 
     @Autowired
@@ -37,8 +34,9 @@ public class EduCourseController {
     @ApiOperation("添加课程基本信息")
     @PostMapping("addCourseInfo")
     public R addCourseInfo(@RequestBody CourseInfoVo courseInfoVo) {
-        courseService.saveCourseInfo(courseInfoVo);
-        return R.ok();
+        // 返回添加之后课程id，为了后面添加课程大纲
+        String id = courseService.saveCourseInfo(courseInfoVo);
+        return R.ok().data("courseId", id);
     }
 
 

@@ -24,7 +24,7 @@ public class TestEasyExcel {
     }
 
     /**
-     * 测试Excel读操作
+     * 测试Excel读操作，读需要借助监听器
      */
     @Test
     public void testRead() {

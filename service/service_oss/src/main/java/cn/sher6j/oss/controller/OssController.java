@@ -32,7 +32,7 @@ public class OssController {
     @ApiOperation(value = "上传头像文件")
     @PostMapping
     public R uploadOssFile(MultipartFile file) {
-        //获取上传文件
+        //获取上传文件 MultipartFile
         //上传文件方法返回头像图片在阿里云OSS服务中的路径
         String url = ossService.uploadFileAvatar(file);
         return R.ok().data("url", url);

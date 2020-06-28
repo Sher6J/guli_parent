@@ -68,7 +68,7 @@ public class SubjectExcelListner extends AnalysisEventListener<SubjectData> {
      * 判断一级分类不能重复添加
      * @param subjectService
      * @param name
-     * @return
+     * @return 数据库中存在该分类则加入该分类，不存在则返回null
      */
     private EduSubject existOneSubject(EduSubjectService subjectService, String name) {
         QueryWrapper<EduSubject> wrapper = new QueryWrapper<>();
@@ -83,7 +83,7 @@ public class SubjectExcelListner extends AnalysisEventListener<SubjectData> {
      * @param subjectService
      * @param name
      * @param pid
-     * @return
+     * @return 数据库中存在该分类则加入该分类，不存在则返回null
      */
     private EduSubject existTwoSubject(EduSubjectService subjectService, String name, String pid) {
         QueryWrapper<EduSubject> wrapper = new QueryWrapper<>();

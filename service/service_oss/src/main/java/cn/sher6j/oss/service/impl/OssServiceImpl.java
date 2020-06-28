@@ -8,7 +8,6 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
@@ -38,11 +37,11 @@ public class OssServiceImpl implements OssService {
             ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
             // 获取上传文件流。
             InputStream inputStream = file.getInputStream();
-            //获取文件名称
+            // 获取文件名称
             String fileName = file.getOriginalFilename();
 
-            //在文件名称里面添加随机唯一的值（否则如果上传相同名称的文件会进行覆盖）
-            //生成的uuid中有很多"-"，把"-"去掉
+            // 在文件名称里面添加随机唯一的值（否则如果上传相同名称的文件会进行覆盖）
+            // 生成的uuid中有很多"-"，把"-"去掉
             String uuid = UUID.randomUUID().toString().replaceAll("-", "");
             fileName = uuid+fileName;
 

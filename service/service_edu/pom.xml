@@ -12,6 +12,7 @@
     <artifactId>service_edu</artifactId>
 
     <dependencies>
+        <!-- easyexcel事实上是对poi的封装，所以也需要引入poi的依赖（父工程中引入了） -->
         <!-- https://mvnrepository.com/artifact/com.alibaba/easyexcel -->
         <dependency>
             <groupId>com.alibaba</groupId>

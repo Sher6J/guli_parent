@@ -32,7 +32,7 @@ public class EduSubjectController {
 
     /**
      * 添加课程分类
-     * @param file 上传的文件
+     * @param file 上传的Excel文件
      * @return
      */
     @ApiOperation("添加课程分类")

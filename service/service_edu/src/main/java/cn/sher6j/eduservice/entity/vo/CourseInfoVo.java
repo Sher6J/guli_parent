@@ -7,7 +7,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 /**
- * 课程form表单对象
+ * 课程form表单对象  vo - value object
  * @author sher6j
  * @create 2020-05-18-18:36
  */
@@ -21,8 +21,11 @@ public class CourseInfoVo {
     @ApiModelProperty(value = "课程讲师ID")
     private String teacherId;
 
-    @ApiModelProperty(value = "课程专业ID")
+    @ApiModelProperty(value = "二级分类ID")
     private String subjectId;
+
+    @ApiModelProperty(value = "一级分类ID")
+    private String subjectParentId;
 
     @ApiModelProperty(value = "课程标题")
     private String title;

@@ -140,7 +140,7 @@ public class EduTeacherController {
             wrapper.le("gmt_create", end);
         }
 
-        //排序
+        //排序，使新添加的在最上面
         wrapper.orderByDesc("gmt_create");
         //调用方法
         teacherService.page(page, wrapper);
