@@ -1,6 +1,7 @@
 package cn.sher6j.eduservice.service;
 
 import cn.sher6j.eduservice.entity.EduCourse;
+import cn.sher6j.eduservice.entity.chapter.CoursePublishVo;
 import cn.sher6j.eduservice.entity.vo.CourseInfoVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -20,4 +21,24 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return 添加课程的id
      */
     String saveCourseInfo(CourseInfoVo courseInfoVo);
+
+    /**
+     * 根据课程id查询课程信息
+     * @param courseId 课程信息
+     * @return
+     */
+    CourseInfoVo getCourseInfoById(String courseId);
+
+    /**
+     * 修改课程信息
+     * @param courseInfoVo
+     */
+    void updateCourseInfo(CourseInfoVo courseInfoVo);
+
+    /**
+     * 根据课程id查询课程确认信息
+     * @param id
+     * @return
+     */
+    CoursePublishVo coursePublishInfo(String id);
 }

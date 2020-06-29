@@ -2,6 +2,7 @@ package cn.sher6j.eduservice.service.impl;
 
 import cn.sher6j.eduservice.entity.EduCourse;
 import cn.sher6j.eduservice.entity.EduCourseDescription;
+import cn.sher6j.eduservice.entity.chapter.CoursePublishVo;
 import cn.sher6j.eduservice.entity.vo.CourseInfoVo;
 import cn.sher6j.eduservice.mapper.EduCourseMapper;
 import cn.sher6j.eduservice.service.EduCourseDescriptionService;
@@ -54,5 +55,56 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         eduCourseDescriptionService.save(eduCourseDescription);
 
         return cid;
+    }
+
+    /**
+     * 根据课程id查询课程信息
+     * @param courseId 课程id
+     * @return
+     */
+    @Override
+    public CourseInfoVo getCourseInfoById(String courseId) {
+        //1.查询课程表
+        EduCourse eduCourse = baseMapper.selectById(courseId);
+        //2.查询描述表
+        EduCourseDescription courseDescription = eduCourseDescriptionService.getById(courseId);
+        CourseInfoVo courseInfoVo = new CourseInfoVo();
+
+        BeanUtils.copyProperties(eduCourse, courseInfoVo);
+        courseInfoVo.setDescription(courseDescription.getDescription());
+
+        return courseInfoVo;
+    }
+
+    /**
+     * 修改课程信息
+     * @param courseInfoVo
+     */
+    @Override
+    public void updateCourseInfo(CourseInfoVo courseInfoVo) {
+        //1.修改课程表
+        EduCourse eduCourse = new EduCourse();
+        BeanUtils.copyProperties(courseInfoVo, eduCourse);
+        int updateRows = baseMapper.updateById(eduCourse);
+        if (updateRows == 0) {
+            throw new GuliException(20001, "修改课程信息失败");
+        }
+
+        //2.修改描述表
+        EduCourseDescription courseDescription = new EduCourseDescription();
+        courseDescription.setId(courseInfoVo.getId());
+        courseDescription.setDescription(courseInfoVo.getDescription());
+        eduCourseDescriptionService.updateById(courseDescription);
+    }
+
+    /**
+     * 根据课程id查询课程确认信息
+     * @param id
+     * @return
+     */
+    @Override
+    public CoursePublishVo coursePublishInfo(String id) {
+        CoursePublishVo publishCourseInfo = baseMapper.getPublishCourseInfo(id);
+        return publishCourseInfo;
     }
 }
