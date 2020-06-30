@@ -23,6 +23,6 @@ public class CourseQueryVo implements Serializable {
     private String oneSubjectId;
 
     @ApiModelProperty(value = "二级类别id")
-    private String twoSubjecctId;
+    private String twoSubjectId;
 
 }

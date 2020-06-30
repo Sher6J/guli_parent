@@ -34,7 +34,7 @@ public class EduCourseController {
     private EduCourseService courseService;
 
     @ApiOperation("分页查询课程列表")
-    @GetMapping("pageCourseCondition/{current}/{limit}")
+    @PostMapping("pageCourseCondition/{current}/{limit}")
     public R pageCourseCondition(
             @ApiParam(name = "current", value = "当前页码", required = true)
             @PathVariable long current,
@@ -98,6 +98,18 @@ public class EduCourseController {
     public R getCoursePublishInfo(@PathVariable String id) {
         CoursePublishVo coursePublishVo = courseService.coursePublishInfo(id);
         return R.ok().data("coursePublish", coursePublishVo);
+    }
+
+    /**
+     * 根据id删除课程，在删除课程的同时，会将课程中包含的课程描述、章节、小节全部删除
+     * @param courseId
+     * @return
+     */
+    @ApiOperation("根据课程id删除外键")
+    @DeleteMapping("deleteCourse/{courseId}")
+    public R deleteCourse(@PathVariable String courseId) {
+        courseService.removeCourse(courseId);
+        return R.ok();
     }
 
     /**

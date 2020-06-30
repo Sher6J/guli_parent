@@ -50,4 +50,10 @@ public interface EduCourseService extends IService<EduCourse> {
      * @param courseQueryVo
      */
     void pageQuery(Page<EduCourse> page, CourseQueryVo courseQueryVo);
+
+    /**
+     * 删除课程
+     * @param courseId
+     */
+    void removeCourse(String courseId);
 }

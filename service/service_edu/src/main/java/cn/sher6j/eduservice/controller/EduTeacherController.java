@@ -86,11 +86,11 @@ public class EduTeacherController {
         List<EduTeacher> records = pageTeacher.getRecords(); //数据集合
 
         //手动模拟异常
-        try {
-            int i = 1/0;
-        } catch (Exception e) {
-            throw new GuliException(20001, "执行了自定义异常处理");
-        }
+//        try {
+//            int i = 1/0;
+//        } catch (Exception e) {
+//            throw new GuliException(20001, "执行了自定义异常处理");
+//        }
 
 //        HashMap map = new HashMap<>();
 //        map.put("total", total);

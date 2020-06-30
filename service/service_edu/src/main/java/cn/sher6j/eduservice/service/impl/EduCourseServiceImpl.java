@@ -6,8 +6,10 @@ import cn.sher6j.eduservice.entity.chapter.CoursePublishVo;
 import cn.sher6j.eduservice.entity.vo.CourseInfoVo;
 import cn.sher6j.eduservice.entity.vo.CourseQueryVo;
 import cn.sher6j.eduservice.mapper.EduCourseMapper;
+import cn.sher6j.eduservice.service.EduChapterService;
 import cn.sher6j.eduservice.service.EduCourseDescriptionService;
 import cn.sher6j.eduservice.service.EduCourseService;
+import cn.sher6j.eduservice.service.EduVideoService;
 import cn.sher6j.servicebase.exceptionhandler.GuliException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -31,6 +33,12 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     @Autowired
     private EduCourseDescriptionService eduCourseDescriptionService;
 
+    @Autowired
+    private EduVideoService eduVideoService;
+
+    @Autowired
+    private EduChapterService eduChapterService;
+
     /**
      * 分页查询课程信息
      * @param page
@@ -49,7 +57,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         String title = courseQueryVo.getTitle();
         String teacherId = courseQueryVo.getTeacherId();
         String oneSubjectId = courseQueryVo.getOneSubjectId();
-        String twoSubjectId = courseQueryVo.getTwoSubjecctId();
+        String twoSubjectId = courseQueryVo.getTwoSubjectId();
 
         if (!StringUtils.isEmpty(title)) queryWrapper.like("title", title);
         if (!StringUtils.isEmpty(teacherId)) queryWrapper.eq("teacher_id", teacherId);
@@ -57,6 +65,23 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         if (!StringUtils.isEmpty(twoSubjectId)) queryWrapper.eq("subject_id", twoSubjectId);
 
         baseMapper.selectPage(page, queryWrapper);
+    }
+
+    /**
+     * 删除课程
+     * @param courseId
+     */
+    @Override
+    public void removeCourse(String courseId) {
+        //1.根据课程id删除小节
+        eduVideoService.removeVideoByCourseId(courseId);
+        //2.根据课程id删除章节
+        eduChapterService.removeChapterByCourseId(courseId);
+        //3.根据课程id删除课程描述
+        eduCourseDescriptionService.removeById(courseId);
+        //4.根据课程id删除课程本身
+        int delete = baseMapper.deleteById(courseId);
+        if (delete == 0) throw new GuliException(20001, "删除失败！");
     }
 
     /**

@@ -5,6 +5,7 @@ import cn.sher6j.eduservice.entity.vo.VideoInfoVo;
 import cn.sher6j.eduservice.mapper.EduVideoMapper;
 import cn.sher6j.eduservice.service.EduVideoService;
 import cn.sher6j.servicebase.exceptionhandler.GuliException;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -45,5 +46,16 @@ public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> i
         BeanUtils.copyProperties(videoInfoVo, eduVideo);
         int update = baseMapper.updateById(eduVideo);
         if (update == 0) throw new GuliException(20001, "课时信息保存失败！");
+    }
+
+    /**
+     * 根据课程id删除小节
+     * @param courseId 课程id
+     */
+    @Override
+    public void removeVideoByCourseId(String courseId) {
+        QueryWrapper<EduVideo> wrapper = new QueryWrapper<>();
+        wrapper.eq("course_id", courseId);
+        baseMapper.delete(wrapper);
     }
 }
