@@ -3,9 +3,11 @@ package cn.sher6j.eduservice.controller;
 
 import cn.sher6j.commonutils.R;
 import cn.sher6j.eduservice.entity.EduVideo;
+import cn.sher6j.eduservice.entity.vo.VideoInfoVo;
 import cn.sher6j.eduservice.service.EduVideoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +35,9 @@ public class EduVideoController {
      */
     @ApiOperation("添加小节")
     @PostMapping("addVideo")
-    public R addVideo(@RequestBody EduVideo eduVideo) {
+    public R addVideo(
+            @ApiParam(name = "eduVideo", value = "小节对象", required = true)
+            @RequestBody EduVideo eduVideo) {
         videoService.save(eduVideo);
         return R.ok();
     }
@@ -46,20 +50,45 @@ public class EduVideoController {
      */
     @ApiOperation("删除小节")
     @DeleteMapping("deleteVideo/{id}")
-    public R deleteVideo(@PathVariable String id) {
-        videoService.removeById(id);
-        return R.ok();
+    public R deleteVideo(
+            @ApiParam(name = "id", value = "小节id", required = true)
+            @PathVariable String id) {
+        boolean isDeleted = videoService.removeById(id);
+        if (isDeleted) {
+            return R.ok();
+        } else {
+            return R.error().message("删除失败");
+        }
+    }
+
+    /**
+     * 根据id查询小节
+     * @param id 小节id
+     * @return
+     */
+    @ApiOperation("根据小节id查询小节")
+    @GetMapping("getVideoInfo/{id}")
+    public R getVideoInfo(
+            @ApiParam(name = "id", value = "小节id", required = true)
+            @PathVariable String id) {
+        VideoInfoVo videoInfoVo = videoService.getVideoById(id);
+        return R.ok().data("item", videoInfoVo);
     }
 
     /**
      * 修改小节
-     * @param eduVideo
+     * @param videoInfoVo
+     * @param id
      * @return
      */
     @ApiOperation("修改小节")
-    @PostMapping("updateVideo")
-    public R updateVideo(@RequestBody EduVideo eduVideo) {
-        videoService.updateById(eduVideo);
+    @PostMapping("updateVideo/{id}")
+    public R updateVideo(
+            @ApiParam(name = "videoInfoVo", value = "小节基本信息", required = true)
+            @RequestBody VideoInfoVo videoInfoVo,
+            @ApiParam(name = "id", value = "小节id", required = true)
+            @PathVariable String id) {
+        videoService.updateVideoInfoById(videoInfoVo);
         return R.ok();
     }
 

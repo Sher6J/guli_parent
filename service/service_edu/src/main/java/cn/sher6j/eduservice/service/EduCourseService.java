@@ -3,6 +3,8 @@ package cn.sher6j.eduservice.service;
 import cn.sher6j.eduservice.entity.EduCourse;
 import cn.sher6j.eduservice.entity.chapter.CoursePublishVo;
 import cn.sher6j.eduservice.entity.vo.CourseInfoVo;
+import cn.sher6j.eduservice.entity.vo.CourseQueryVo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -41,4 +43,11 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return
      */
     CoursePublishVo coursePublishInfo(String id);
+
+    /**
+     * 分页查询课程信息
+     * @param page
+     * @param courseQueryVo
+     */
+    void pageQuery(Page<EduCourse> page, CourseQueryVo courseQueryVo);
 }

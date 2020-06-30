@@ -4,14 +4,18 @@ import cn.sher6j.eduservice.entity.EduCourse;
 import cn.sher6j.eduservice.entity.EduCourseDescription;
 import cn.sher6j.eduservice.entity.chapter.CoursePublishVo;
 import cn.sher6j.eduservice.entity.vo.CourseInfoVo;
+import cn.sher6j.eduservice.entity.vo.CourseQueryVo;
 import cn.sher6j.eduservice.mapper.EduCourseMapper;
 import cn.sher6j.eduservice.service.EduCourseDescriptionService;
 import cn.sher6j.eduservice.service.EduCourseService;
 import cn.sher6j.servicebase.exceptionhandler.GuliException;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * <p>
@@ -26,6 +30,34 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     @Autowired
     private EduCourseDescriptionService eduCourseDescriptionService;
+
+    /**
+     * 分页查询课程信息
+     * @param page
+     * @param courseQueryVo
+     */
+    @Override
+    public void pageQuery(Page<EduCourse> page, CourseQueryVo courseQueryVo) {
+        QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("gmt_create");
+
+        if (courseQueryVo == null) {
+            baseMapper.selectPage(page, queryWrapper);
+            return;
+        }
+
+        String title = courseQueryVo.getTitle();
+        String teacherId = courseQueryVo.getTeacherId();
+        String oneSubjectId = courseQueryVo.getOneSubjectId();
+        String twoSubjectId = courseQueryVo.getTwoSubjecctId();
+
+        if (!StringUtils.isEmpty(title)) queryWrapper.like("title", title);
+        if (!StringUtils.isEmpty(teacherId)) queryWrapper.eq("teacher_id", teacherId);
+        if (!StringUtils.isEmpty(oneSubjectId)) queryWrapper.eq("subject_parent_id", oneSubjectId);
+        if (!StringUtils.isEmpty(twoSubjectId)) queryWrapper.eq("subject_id", twoSubjectId);
+
+        baseMapper.selectPage(page, queryWrapper);
+    }
 
     /**
      * 添加课程信息

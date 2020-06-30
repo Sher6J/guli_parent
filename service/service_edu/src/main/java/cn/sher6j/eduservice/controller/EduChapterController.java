@@ -7,6 +7,7 @@ import cn.sher6j.eduservice.entity.chapter.ChapterVo;
 import cn.sher6j.eduservice.service.EduChapterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +50,9 @@ public class EduChapterController {
      */
     @ApiOperation("添加章节")
     @PostMapping("addChapter")
-    public R addChapter(@RequestBody EduChapter eduChapter) {
+    public R addChapter(
+            @ApiParam(name = "eduChapter", value = "章节对象", required = true)
+            @RequestBody EduChapter eduChapter) {
         chapterService.save(eduChapter);
         return R.ok();
     }
@@ -61,7 +64,9 @@ public class EduChapterController {
      */
     @ApiOperation("根据章节id查询章节")
     @GetMapping("getChapterInfo/{chapterId}")
-    public R getChapterInfo(@PathVariable String chapterId) {
+    public R getChapterInfo(
+            @ApiParam(name = "chapterId", value = "章节id", required = true)
+            @PathVariable String chapterId) {
         EduChapter eduChapter = chapterService.getById(chapterId);
         return R.ok().data("chapter", eduChapter);
     }
@@ -73,7 +78,9 @@ public class EduChapterController {
      */
     @ApiOperation("修改章节")
     @PostMapping("updateChapter")
-    public R updateChapter(@RequestBody EduChapter eduChapter) {
+    public R updateChapter(
+            @ApiParam(name = "eduChapter", value = "章节对象", required = true)
+            @RequestBody EduChapter eduChapter) {
         chapterService.updateById(eduChapter);
         return R.ok();
     }
@@ -91,7 +98,9 @@ public class EduChapterController {
      */
     @ApiOperation("删除章节")
     @DeleteMapping("deleteChapter/{chapterId}")
-    public R deleteChapter(@PathVariable String chapterId) {
+    public R deleteChapter(
+            @ApiParam(name = "chapterId", value = "章节id", required = true)
+            @PathVariable String chapterId) {
         boolean flag = chapterService.deleteChapter(chapterId);
         if (flag) {
             return R.ok();
