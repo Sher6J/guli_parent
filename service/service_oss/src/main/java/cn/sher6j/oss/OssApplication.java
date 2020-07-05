@@ -3,6 +3,7 @@ package cn.sher6j.oss;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 //不去加载数据源配置，否则如果不配置数据源会报错
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @ComponentScan(basePackages = {"cn.sher6j"})
+@EnableDiscoveryClient
 public class OssApplication {
     public static void main(String[] args) {
         SpringApplication.run(OssApplication.class);

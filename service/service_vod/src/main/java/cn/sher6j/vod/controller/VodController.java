@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * @author sher6j
  * @create 2020-07-01-13:30
@@ -60,5 +62,17 @@ public class VodController {
             e.printStackTrace();
             throw new GuliException(20001, "删除视频失败");
         }
+    }
+
+    /**
+     * 删除多个视频
+     * @param videoList
+     * @return
+     */
+    @ApiOperation("删除多个阿里云中的视频")
+    @DeleteMapping("delete-batch")
+    public R deleteBatch(@RequestParam("videoList") List<String> videoList) {
+        vodService.removeAliyunVideos(videoList);
+        return R.ok();
     }
 }

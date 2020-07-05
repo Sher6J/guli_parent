@@ -1,5 +1,6 @@
 package cn.sher6j.eduservice.service.impl;
 
+import cn.sher6j.eduservice.client.VodClient;
 import cn.sher6j.eduservice.entity.EduVideo;
 import cn.sher6j.eduservice.entity.vo.VideoInfoVo;
 import cn.sher6j.eduservice.mapper.EduVideoMapper;
@@ -8,7 +9,12 @@ import cn.sher6j.servicebase.exceptionhandler.GuliException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -20,6 +26,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> implements EduVideoService {
+
+    //注入vodClient
+    @Autowired
+    private VodClient vodClient;
 
     /**
      * 根据id查询并包装小节信息
@@ -54,6 +64,21 @@ public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> i
      */
     @Override
     public void removeVideoByCourseId(String courseId) {
+        //1根据课程id查询出所有视频id
+        QueryWrapper<EduVideo> wrapperVideo = new QueryWrapper<>();
+        wrapperVideo.eq("course_id", courseId);
+        wrapperVideo.select("video_source_id");
+        List<EduVideo> eduVideos = baseMapper.selectList(wrapperVideo);
+        //List<EduVideo> -> List<String>
+        List<String> videoIds = new ArrayList<>();
+        for (int i = 0; i < eduVideos.size(); i++) {
+            EduVideo eduVideo = eduVideos.get(i);
+            String videoSourceId = eduVideo.getVideoSourceId();
+            if (StringUtils.isEmpty(videoSourceId)) videoIds.add(videoSourceId);
+        }
+
+        if (videoIds.size() > 0) vodClient.deleteBatch(videoIds);
+
         QueryWrapper<EduVideo> wrapper = new QueryWrapper<>();
         wrapper.eq("course_id", courseId);
         baseMapper.delete(wrapper);

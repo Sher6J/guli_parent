@@ -2,6 +2,7 @@ package cn.sher6j.eduservice.controller;
 
 
 import cn.sher6j.commonutils.R;
+import cn.sher6j.eduservice.client.VodClient;
 import cn.sher6j.eduservice.entity.EduVideo;
 import cn.sher6j.eduservice.entity.vo.VideoInfoVo;
 import cn.sher6j.eduservice.service.EduVideoService;
@@ -9,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -28,6 +30,10 @@ public class EduVideoController {
     @Autowired
     private EduVideoService videoService;
 
+    //注入VodClient
+    @Autowired
+    private VodClient vodClient;
+
     /**
      * 添加小节
      * @param eduVideo
@@ -42,7 +48,6 @@ public class EduVideoController {
         return R.ok();
     }
 
-    // TODO 后面这个方法需要完善：删除小节时候，同时把里面视频删除
     /**
      * 删除小节
      * @param id
@@ -53,6 +58,12 @@ public class EduVideoController {
     public R deleteVideo(
             @ApiParam(name = "id", value = "小节id", required = true)
             @PathVariable String id) {
+        //根据小节id获取视频id，调用方法实现视频删除
+        EduVideo eduVideo = videoService.getById(id);
+        String videoSourceId = eduVideo.getVideoSourceId();
+        //删除小节中的视频
+        if (StringUtils.isEmpty(videoSourceId)) vodClient.removeVideoFromAliyun(videoSourceId);
+        //删除小节
         boolean isDeleted = videoService.removeById(id);
         if (isDeleted) {
             return R.ok();
