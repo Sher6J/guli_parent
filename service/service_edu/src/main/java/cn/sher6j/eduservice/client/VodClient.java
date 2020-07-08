@@ -15,7 +15,7 @@ import java.util.List;
  * @create 2020-07-03-20:45
  */
 @Component
-@FeignClient("service-vod")
+@FeignClient(name = "service-vod", fallback = VodFileDegradeFeignClient.class) //容错就执行fallback中方法
 public interface VodClient {
     //定义调用的方法路径
     @DeleteMapping("/eduvod/video/removeVideoFromAliyun/{id}")
