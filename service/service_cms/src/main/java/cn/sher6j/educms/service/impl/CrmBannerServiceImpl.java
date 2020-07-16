@@ -5,6 +5,7 @@ import cn.sher6j.educms.mapper.CrmBannerMapper;
 import cn.sher6j.educms.service.CrmBannerService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 @Service
 public class CrmBannerServiceImpl extends ServiceImpl<CrmBannerMapper, CrmBanner> implements CrmBannerService {
 
+    @Cacheable(key = "'selectIndexList'", value = "banner") //把查询数据放到缓存中
     @Override
     public List<CrmBanner> selectAllBanner() {
         //根据id进行降序排列，显示排练后的两条记录
