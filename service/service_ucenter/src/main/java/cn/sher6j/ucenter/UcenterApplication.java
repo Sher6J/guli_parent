@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @create 2020-07-17-16:45
  */
 @SpringBootApplication
-@ComponentScan({"cn.sher6j"})
+@ComponentScan(basePackages = {"cn.sher6j"})
 @MapperScan("cn.sher6j.ucenter.mapper")
 public class UcenterApplication {
     public static void main(String[] args) {

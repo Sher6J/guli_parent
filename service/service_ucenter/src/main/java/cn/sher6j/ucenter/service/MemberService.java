@@ -1,6 +1,7 @@
 package cn.sher6j.ucenter.service;
 
 import cn.sher6j.ucenter.entity.Member;
+import cn.sher6j.ucenter.entity.vo.RegisterVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -13,4 +14,16 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface MemberService extends IService<Member> {
 
+    /**
+     * 登录
+     * @param member 会员
+     * @return token序列
+     */
+    String login(Member member);
+
+    /**
+     * 注册
+     * @param registerVo
+     */
+    void register(RegisterVo registerVo);
 }
