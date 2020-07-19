@@ -67,6 +67,20 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         member.setAvatar("http://thirdwx.qlogo.cn/mmopen/vi_32/zZfLXcetf2Rpsibq6HbPUWKgWSJHtha9y1XBeaqluPUs6BYicW1FJaVqj7U3ozHd3iaodGKJOvY2PvqYTuCKwpyfQ/132");
         baseMapper.insert(member);
     }
+
+    /**
+     * 根据微信openid查询会员信息
+     * @param openid
+     * @return
+     */
+    @Override
+    public Member getByOpenId(String openid) {
+        QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("openid", openid);
+        Member member = baseMapper.selectOne(queryWrapper);
+        return member;
+    }
+
     /**
      * 登录
      * @param member 会员对象，其中封装手机号和密码
