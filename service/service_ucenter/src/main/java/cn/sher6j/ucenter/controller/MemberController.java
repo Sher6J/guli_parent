@@ -1,6 +1,7 @@
 package cn.sher6j.ucenter.controller;
 
 
+import cn.sher6j.commonutils.JwtUtils;
 import cn.sher6j.commonutils.R;
 import cn.sher6j.ucenter.entity.Member;
 import cn.sher6j.ucenter.entity.vo.RegisterVo;
@@ -8,6 +9,8 @@ import cn.sher6j.ucenter.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -48,6 +51,20 @@ public class MemberController {
         //调用service方法实现登录，返回token值（JWT生成）
         String token = memberService.login(member);
         return R.ok().data("token", token);
+    }
+
+    /**
+     * 根据token获取用户信息
+     * @param request
+     * @return
+     */
+    @ApiOperation("根据token获取用户信息")
+    @GetMapping("getMemberInfo")
+    public R getMemberInfo(HttpServletRequest request) {
+        //调用jwt工具类获取用户id
+        String id = JwtUtils.getMemberIdByJwtToken(request);
+        Member member = memberService.getById(id);
+        return R.ok().data("memberInfo", member);
     }
 }
 
