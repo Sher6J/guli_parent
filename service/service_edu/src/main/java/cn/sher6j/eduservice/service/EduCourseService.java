@@ -2,10 +2,13 @@ package cn.sher6j.eduservice.service;
 
 import cn.sher6j.eduservice.entity.EduCourse;
 import cn.sher6j.eduservice.entity.chapter.CoursePublishVo;
+import cn.sher6j.eduservice.entity.frontvo.FrontCouseVo;
 import cn.sher6j.eduservice.entity.vo.CourseInfoVo;
 import cn.sher6j.eduservice.entity.vo.CourseQueryVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -56,4 +59,12 @@ public interface EduCourseService extends IService<EduCourse> {
      * @param courseId
      */
     void removeCourse(String courseId);
+
+    /**
+     * 前台条件查询带分页查询前台课程
+     * @param coursePage 分页结果
+     * @param couseVo 查询条件
+     * @return
+     */
+    Map<String, Object> getFrontCourseList(Page<EduCourse> coursePage, FrontCouseVo couseVo);
 }

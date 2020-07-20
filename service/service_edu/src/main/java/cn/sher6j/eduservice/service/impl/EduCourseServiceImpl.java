@@ -3,6 +3,7 @@ package cn.sher6j.eduservice.service.impl;
 import cn.sher6j.eduservice.entity.EduCourse;
 import cn.sher6j.eduservice.entity.EduCourseDescription;
 import cn.sher6j.eduservice.entity.chapter.CoursePublishVo;
+import cn.sher6j.eduservice.entity.frontvo.FrontCouseVo;
 import cn.sher6j.eduservice.entity.vo.CourseInfoVo;
 import cn.sher6j.eduservice.entity.vo.CourseQueryVo;
 import cn.sher6j.eduservice.mapper.EduCourseMapper;
@@ -18,6 +19,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -82,6 +87,53 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         //4.根据课程id删除课程本身
         int delete = baseMapper.deleteById(courseId);
         if (delete == 0) throw new GuliException(20001, "删除失败！");
+    }
+
+    /**
+     * 条件查询带分页查询课程
+     * @param coursePage 分页结果
+     * @param couseVo 查询条件
+     * @return
+     */
+    @Override
+    public Map<String, Object> getFrontCourseList(Page<EduCourse> coursePage, FrontCouseVo couseVo) {
+        QueryWrapper<EduCourse> wrapper = new QueryWrapper<>();
+        //判断条件值是否为空
+        if (!StringUtils.isEmpty(couseVo.getSubjectParentId())) { //一级分类不为空
+            wrapper.eq("subject_parent_id", couseVo.getSubjectParentId());
+        }
+        if (!StringUtils.isEmpty(couseVo.getSubjectId())) { //二级分类不为空
+            wrapper.eq("subject_id", couseVo.getSubjectId());
+        }
+        if (!StringUtils.isEmpty(couseVo.getBuyCountSort())) { //按关注度排序
+            wrapper.orderByDesc("buy_count");
+        }
+        if (!StringUtils.isEmpty(couseVo.getGmtCreateSort())) { //按最新时间排序
+            wrapper.orderByDesc("gmt_create");
+        }
+        if (!StringUtils.isEmpty(couseVo.getPriceSort())) { //按价格排序
+            wrapper.orderByDesc("price");
+        }
+        baseMapper.selectPage(coursePage, wrapper);
+
+        List<EduCourse> records = coursePage.getRecords();
+        long current = coursePage.getCurrent();
+        long pages = coursePage.getPages();
+        long size = coursePage.getSize();
+        long total = coursePage.getTotal();
+        boolean hasNext = coursePage.hasNext();
+        boolean hasPrevious = coursePage.hasPrevious();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("items", records);
+        map.put("current", current);
+        map.put("pages", pages);
+        map.put("size", size);
+        map.put("total", total);
+        map.put("hasNext", hasNext);
+        map.put("hasPrevious", hasPrevious);
+
+        return map;
     }
 
     /**
