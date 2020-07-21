@@ -8,6 +8,8 @@ import cn.sher6j.vod.utils.VodConstantUtils;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthRequest;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,5 +76,22 @@ public class VodController {
     public R deleteBatch(@RequestParam("videoList") List<String> videoList) {
         vodService.removeAliyunVideos(videoList);
         return R.ok();
+    }
+
+    @ApiOperation("根据视频id获取视频播放凭证")
+    @GetMapping("getPlayAuth/{videoId}")
+    public R getPlayAuth(@PathVariable String videoId) {
+        try {
+            //创建初始化对象
+            DefaultAcsClient client = InitVodObject.initVodClient(VodConstantUtils.ACCESS_KEY_ID, VodConstantUtils.ACCESS_KEY_SECRET);
+            //创建获取凭证的request和response对象
+            GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
+            request.setVideoId(videoId); //向request中设置视频id
+            GetVideoPlayAuthResponse response = client.getAcsResponse(request);//调用方法得到凭证
+            String playAuth = response.getPlayAuth();
+            return R.ok().data("playAuth", playAuth);
+        } catch (Exception e) {
+            throw new GuliException(20001, "获取凭证失败");
+        }
     }
 }

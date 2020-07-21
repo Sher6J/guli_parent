@@ -2,6 +2,7 @@ package cn.sher6j.eduservice.service;
 
 import cn.sher6j.eduservice.entity.EduCourse;
 import cn.sher6j.eduservice.entity.chapter.CoursePublishVo;
+import cn.sher6j.eduservice.entity.frontvo.CourseWebVo;
 import cn.sher6j.eduservice.entity.frontvo.FrontCouseVo;
 import cn.sher6j.eduservice.entity.vo.CourseInfoVo;
 import cn.sher6j.eduservice.entity.vo.CourseQueryVo;
@@ -67,4 +68,11 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return
      */
     Map<String, Object> getFrontCourseList(Page<EduCourse> coursePage, FrontCouseVo couseVo);
+
+    /**
+     * 根据课程id查询用于前台系统显示的课程基本信息
+     * @param courseId
+     * @return
+     */
+    CourseWebVo getFrontCourseInfoById(String courseId);
 }

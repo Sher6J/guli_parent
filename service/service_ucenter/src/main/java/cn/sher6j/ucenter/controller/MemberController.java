@@ -66,5 +66,17 @@ public class MemberController {
         Member member = memberService.getById(id);
         return R.ok().data("memberInfo", member);
     }
+
+    /**
+     * 根据用户id获取用户信息
+     * @param id
+     * @return
+     */
+    @ApiOperation("根据用户id获取用户信息")
+    @PostMapping("getUserInfo/{id}")
+    public Member getUserInfo(@PathVariable String id) {
+        Member member = memberService.getById(id);
+        return member;
+    }
 }
 

@@ -3,6 +3,7 @@ package cn.sher6j.eduservice.service.impl;
 import cn.sher6j.eduservice.entity.EduCourse;
 import cn.sher6j.eduservice.entity.EduCourseDescription;
 import cn.sher6j.eduservice.entity.chapter.CoursePublishVo;
+import cn.sher6j.eduservice.entity.frontvo.CourseWebVo;
 import cn.sher6j.eduservice.entity.frontvo.FrontCouseVo;
 import cn.sher6j.eduservice.entity.vo.CourseInfoVo;
 import cn.sher6j.eduservice.entity.vo.CourseQueryVo;
@@ -134,6 +135,16 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         map.put("hasPrevious", hasPrevious);
 
         return map;
+    }
+
+    /**
+     * 根据课程id查询用于前台系统显示的课程基本信息
+     * @param courseId
+     * @return
+     */
+    @Override
+    public CourseWebVo getFrontCourseInfoById(String courseId) {
+        return baseMapper.getFrontCourseInfoById(courseId);
     }
 
     /**

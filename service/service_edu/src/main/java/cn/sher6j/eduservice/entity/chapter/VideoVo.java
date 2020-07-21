@@ -16,4 +16,5 @@ public class VideoVo implements Serializable {
 
     private String id;
     private String title;
+    private String videoSourceId;
 }
