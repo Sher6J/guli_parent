@@ -1,7 +1,6 @@
 package cn.sher6j.eduservice.client;
 
-import cn.sher6j.commonutils.R;
-import cn.sher6j.eduservice.entity.Member;
+import cn.sher6j.commonutils.ordervo.OrderMember;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UCenterClientImpl implements UCenterClient{
     @Override
-    public Member getUserInfo(String id) {
+    public OrderMember getUserInfo(String id) {
         return null;
     }
 }

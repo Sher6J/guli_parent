@@ -1,6 +1,7 @@
 package cn.sher6j.eduservice.controller.front;
 
 import cn.sher6j.commonutils.R;
+import cn.sher6j.commonutils.ordervo.CourseVo;
 import cn.sher6j.eduservice.entity.EduCourse;
 import cn.sher6j.eduservice.entity.EduTeacher;
 import cn.sher6j.eduservice.entity.chapter.ChapterVo;
@@ -12,6 +13,7 @@ import cn.sher6j.eduservice.service.EduTeacherService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,5 +53,14 @@ public class CourseFrontController {
         List<ChapterVo> chapters = chapterService.getChaptersById(courseId);
         //返回课程基本信息和课程大纲
         return R.ok().data("courseWebVo", courseWebVo).data("chapters", chapters);
+    }
+
+    @ApiOperation("根据课程id查询课程信息用于远程调用")
+    @PostMapping("getCourseInfo{id}")
+    public CourseVo getCourseInfo(@PathVariable String id) {
+        CourseWebVo courseInfoById = courseService.getFrontCourseInfoById(id);
+        CourseVo courseInfo = new CourseVo();
+        BeanUtils.copyProperties(courseInfoById, courseInfo);
+        return courseInfo;
     }
 }

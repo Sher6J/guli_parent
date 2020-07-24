@@ -3,10 +3,12 @@ package cn.sher6j.ucenter.controller;
 
 import cn.sher6j.commonutils.JwtUtils;
 import cn.sher6j.commonutils.R;
+import cn.sher6j.commonutils.ordervo.OrderMember;
 import cn.sher6j.ucenter.entity.Member;
 import cn.sher6j.ucenter.entity.vo.RegisterVo;
 import cn.sher6j.ucenter.service.MemberService;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,15 +70,18 @@ public class MemberController {
     }
 
     /**
-     * 根据用户id获取用户信息
+     * 根据用户id获取用户信息，可用作在edu模块和order模块的远程调用
      * @param id
      * @return
      */
     @ApiOperation("根据用户id获取用户信息")
     @PostMapping("getUserInfo/{id}")
-    public Member getUserInfo(@PathVariable String id) {
+    public OrderMember getUserInfo(@PathVariable String id) {
         Member member = memberService.getById(id);
-        return member;
+        //把member对象中的值赋值给OrderMember中
+        OrderMember orderMember = new OrderMember();
+        BeanUtils.copyProperties(member, orderMember);
+        return orderMember;
     }
 }
 

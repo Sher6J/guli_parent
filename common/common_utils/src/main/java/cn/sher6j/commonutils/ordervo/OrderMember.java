@@ -1,4 +1,4 @@
-package cn.sher6j.eduservice.entity;
+package cn.sher6j.commonutils.ordervo;
 
 import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
@@ -23,7 +23,7 @@ import java.util.Date;
 @Accessors(chain = true)
 @TableName("ucenter_member")
 @ApiModel(value="Member对象", description="会员表")
-public class Member implements Serializable {
+public class OrderMember implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

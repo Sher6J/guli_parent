@@ -2,9 +2,9 @@ package cn.sher6j.eduservice.controller.front;
 
 import cn.sher6j.commonutils.JwtUtils;
 import cn.sher6j.commonutils.R;
+import cn.sher6j.commonutils.ordervo.OrderMember;
 import cn.sher6j.eduservice.client.UCenterClient;
 import cn.sher6j.eduservice.entity.EduComment;
-import cn.sher6j.eduservice.entity.Member;
 import cn.sher6j.eduservice.service.EduCommentService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -65,7 +65,7 @@ public class CommentFrontController {
         }
         comment.setMemberId(memberId);
 
-        Member member = uCenterClient.getUserInfo(memberId);
+        OrderMember member = uCenterClient.getUserInfo(memberId);
 
         comment.setNickname(member.getNickname());
         comment.setAvatar(member.getAvatar());
